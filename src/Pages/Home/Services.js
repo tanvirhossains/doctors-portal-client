@@ -12,7 +12,7 @@ const Services = () => {
         <div className='mt-24 px-12' >
             <p className='uppercase text-center text-secondary'>Our Services</p>
             <h1 className='text-center text-2xl mb-10'>Service We Provide</h1>
-            <div className='grid grid-cols-3 gap-5'>
+            <div className='grid md:grid-cols-1 lg:grid-cols-3 gap-5'>
                 <Service title='Fluoride Treatment' img={fluoride} ></Service>
                 <Service title='Cavity Filling' img={cavity} ></Service>
                 <Service title='Teeth Whitening' img={whitening} ></Service>
