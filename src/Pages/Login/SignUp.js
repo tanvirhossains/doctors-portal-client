@@ -1,44 +1,49 @@
 import React from 'react';
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+// import auth from '../../firebase.init';
 import Loading from '../Shared/Loading';
 
-const Login = () => {
+const SignUp = () => {
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
 
     const [
-        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
         user,
         loading,
         error,
-    ] = useSignInWithEmailAndPassword(auth);
+    ] = useCreateUserWithEmailAndPassword(auth);
 
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+    const navagate = useNavigate()
     let signInError;
 
     const { register, formState: { errors }, handleSubmit } = useForm();
 
 
 
-    const onSubmit = data => {
+    const onSubmit = async data => {
         console.log(data)
-
-        signInWithEmailAndPassword(data.email, data.password)
+        await createUserWithEmailAndPassword(data.email, data.password)
+        await updateProfile({ displayName: data.name });
+      navagate('/appointment')
     };
 
-    if (loading || gLoading) {
+    if (loading || gLoading || updating) {
         return <Loading></Loading>
     }
 
-    if (gError || error) {
+    if (gError || error || updateError) {
         signInError = <h1 className='text-red-600 font-bold'>{gError?.message || error?.message}</h1>
     }
 
 
-    if (gUser) {
-        console.log(gUser)
+    if (gUser || user) {
+        console.log(gUser, "email=", user)
     }
+
 
 
     return (
@@ -46,11 +51,31 @@ const Login = () => {
 
             <div class="card w-96 bg-base-100 shadow-xl ">
                 <div class="card-body">
-                    <h1 className='text-center text-3xl font-bold mb-10'>Log In </h1>
+                    <h1 className='text-center text-3xl font-bold mb-10'>Sign Up </h1>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <div class="form-control w-full max-w-xs">
                             <label class="label">
-                                <span class="label-text">What is your email?</span>
+                                <span class="label-text">What is your name?</span>
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Your Name"
+                                class="input input-bordered w-full max-w-xs"
+                                {...register("name", {
+                                    required: {
+                                        value: true,
+                                        message: 'Name is Required'
+                                    }
+
+                                })} />
+                            <label class="label">
+                                {errors.name?.type === 'required' && <span className='text-red-600 '> {errors.name.message} </span>}
+
+                            </label>
+                        </div>
+                        <div class="form-control w-full max-w-xs">
+                            <label class="label">
+                                <span class="label-text">What is your Email?</span>
                             </label>
                             <input
                                 type="email"
@@ -78,7 +103,7 @@ const Login = () => {
                             </label>
                             <input
                                 type="password"
-                                placeholder="Your Password"
+                                placeholder="Your Email"
                                 class="input input-bordered w-full max-w-xs"
                                 {...register("password", {
                                     required: {
@@ -97,8 +122,7 @@ const Login = () => {
                         </div>
 
                         {signInError}
-                        <input className='btn w-full' type="submit" value="Log in " />
-                        <p><small>New to Doctor portal</small> <Link className='text-primary' to='/signup'>Create new account</Link></p>
+                        <input className='btn w-full text-white' type="submit" value="Sign Up" />
                     </form>
 
                     <div class="divider">OR</div>
@@ -110,4 +134,5 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUp;
+
