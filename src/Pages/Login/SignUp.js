@@ -3,11 +3,13 @@ import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfil
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import UseToken from '../Hooks/UseToken';
 // import auth from '../../firebase.init';
 import Loading from '../Shared/Loading';
 
 const SignUp = () => {
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+    const { register, formState: { errors }, handleSubmit } = useForm();
 
     const [
         createUserWithEmailAndPassword,
@@ -17,18 +19,21 @@ const SignUp = () => {
     ] = useCreateUserWithEmailAndPassword(auth);
 
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
-    const navagate = useNavigate()
+    const navigate = useNavigate()
     let signInError;
 
-    const { register, formState: { errors }, handleSubmit } = useForm();
+
+    const [token] = UseToken(user || gUser)
 
 
-
+    if (token) {
+        // navigate('/appointment')
+    }
     const onSubmit = async data => {
-        console.log(data)
+        // console.log(data)
         await createUserWithEmailAndPassword(data.email, data.password)
         await updateProfile({ displayName: data.name });
-      navagate('/appointment')
+        // navigate('/appointment')
     };
 
     if (loading || gLoading || updating) {
@@ -40,9 +45,8 @@ const SignUp = () => {
     }
 
 
-    if (gUser || user) {
-        console.log(gUser, "email=", user)
-    }
+    // if (gUser || user) {
+    // }
 
 
 

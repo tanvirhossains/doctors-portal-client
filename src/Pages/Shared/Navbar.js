@@ -8,9 +8,10 @@ const Navbar = () => {
 
     const [user] = useAuthState(auth)
 
-const logOut = ()=>{
-    signOut(auth)
-}
+    const logOut = () => {
+        signOut(auth)
+        localStorage.removeItem('accesstoken')
+    }
 
     const manuItem = <>
         <li><Link to='/'>Home</Link></li>
@@ -18,6 +19,8 @@ const logOut = ()=>{
         <li><Link to='/review'>Review</Link></li>
         <li><Link to='/contact'>Contact</Link></li>
         <li><Link to='/about'>About</Link></li>
+        <li>{ user && <Link to='/dashboard'>Dashboard</Link>
+            }</li>
         <li>{user ? <button onClick={logOut} class="btn btn-ghost">Sign Out</button> : <Link to='/login'>Login</Link>}</li>
     </>
     return (
