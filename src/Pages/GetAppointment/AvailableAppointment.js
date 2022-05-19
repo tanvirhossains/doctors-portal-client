@@ -13,7 +13,7 @@ const AvailableAppointment = ({ date }) => {
 
 
     const { isLoading, refetch, data:services } = useQuery('repoData', () =>
-    fetch(`http://localhost:5000/available?date=${formattedDate}`).then(res =>
+    fetch(`https://vast-temple-90550.herokuapp.com/available?date=${formattedDate}`).then(res =>
       res.json()
     )
   )
@@ -21,7 +21,7 @@ const AvailableAppointment = ({ date }) => {
   if (isLoading) return <Loading></Loading>
 
       // useEffect(() => {
-    //     fetch(`http://localhost:5000/available?date=${formattedDate}`)
+    //     fetch(`https://vast-temple-90550.herokuapp.com/available?date=${formattedDate}`)
     //         .then(res => res.json())
     //         .then(data => setServices(data))
     // }, [])
