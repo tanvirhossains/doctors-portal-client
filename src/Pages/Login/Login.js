@@ -22,12 +22,12 @@ const Login = () => {
 
     let from = location.state?.from?.pathname || "/";
 
-    // useEffect(() => {
+    useEffect(() => {
     if (user || gUser) {
         navigate(from, { replace: true })
 
     }
-    // }, [user,gUser,from, navigate])
+    }, [user,gUser,from, navigate])
 
     let signInError;
 

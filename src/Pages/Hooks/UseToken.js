@@ -22,7 +22,7 @@ const UseToken = (user) => {
                     console.log('data used inside token', data)
                     const accessToken = data.token
                     console.log(accessToken)
-                    localStorage.setItem('accesstoken', accessToken)
+                    localStorage.setItem('accessToken', accessToken)
                     setToken(accessToken)
                 })
         }

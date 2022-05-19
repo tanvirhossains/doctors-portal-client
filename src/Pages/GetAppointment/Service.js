@@ -4,7 +4,6 @@ const Service = ({ service, setTreatment }) => {
     const { name, slots } = service
 
 
-console.log(slots)
     return (
         <div class="card lg:max-w-lg bg-base-100 shadow-xl">
             <div class="card-body text-center">
