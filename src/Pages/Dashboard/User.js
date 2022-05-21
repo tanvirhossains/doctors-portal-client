@@ -37,13 +37,13 @@ const User = () => {
     return (
         <div>
             <h1>This is user : {users.length}</h1>
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto bg">
                 <table class="table w-full">
 
                     <thead>
                         <tr>
-                            <th>Number</th>
-                            <th>email</th>
+                            <th className='bg-gray-600'>Number</th>
+                            <th >email</th>
                             <th>Job</th>
                             <th>Favorite Color</th>
                         </tr>
